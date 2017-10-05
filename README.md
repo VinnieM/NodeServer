@@ -1,2 +1,2 @@
-# NodeServer
-This is a Node server
+# README
+This is a project to learn NodeJs.
