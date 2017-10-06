@@ -3,13 +3,15 @@ var constants = require('../lib/constants.js');
 var apiCatalog = require('../lib/APICatalog.js');
 
 // Node_module imports
-var express = require ('express');
+var express = require('express');
 var router = express.Router();
 var jsonParser = require('body-parser');
 var PropertiesReader = require('properties-reader')
 var fileReader = require('file-system');
 
-router.use(jsonParser.urlencoded({extended: true}));
+router.use(jsonParser.urlencoded({
+  extended: true
+}));
 router.use(jsonParser.json());
 
 // var apiCatalog = loadAPICatalog(function(data){
@@ -17,26 +19,29 @@ router.use(jsonParser.json());
 // });
 
 router.route('/:paramName')
-.get(function (request, response) {
+  .get(function (request, response) {
     var paramName = request.param('paramName');
     // Checking for the length of the API
-    if(paramName.length<1){
-      response.json({status: false, message: 'Please enter a valid API'});
+    if (paramName.length < 1) {
+      response.json({
+        status: false,
+        message: 'Please enter a valid API'
+      });
     }
     // Check if API matches from the catalog
-    var apiPath = getAPIFromCatalog(paramName, function(data){
+    var apiPath = getAPIFromCatalog(paramName, function (data) {
       apiPath = data;
     });
     //Checks if the response is an error object or a valid response
     var isApiValid = checkObjectState(apiPath);
-    if(!(isApiValid)){
+    if (!(isApiValid)) {
       response.send(apiPath);
     }
     response.json({
-      status:true,
-      message: 'The API path is '+apiPath
+      status: true,
+      message: 'The API path is ' + apiPath
     });
-});
+  });
 
 
 /**
@@ -45,15 +50,14 @@ router.route('/:paramName')
  * @param  {var}  val Can be any variable
  * @return {boolean}  If the parameter is a JSON Object false is returned, else true.
  */
-function checkObjectState(val){
-  try{
+function checkObjectState(val) {
+  try {
     JSON.parse(val);
-  } catch(exception){
+  } catch (exception) {
     return true;
   }
   return false;
 }
-
 
 /**
  * getAPIFromCatalog - This function checks the APICatalog.js for the appropriate API link.
@@ -63,12 +67,12 @@ function checkObjectState(val){
  * @return {JSON} {String} This method will return a JSON Object in case of an error. If the
  *                          API is found the path to API is returned as a String.
  */
-function getAPIFromCatalog(api, callback){
+function getAPIFromCatalog(api, callback) {
   var fetchApi = apiCatalog[api];
-  if(fetchApi===undefined){
+  if (fetchApi === undefined) {
     var errorObject = JSON.stringify({
       status: false,
-      message: 'Unable to find API '+api
+      message: 'Unable to find API ' + api
     });
     return errorObject;
   }
@@ -80,15 +84,15 @@ function getAPIFromCatalog(api, callback){
  * loadAPICatalog - Depricated function
  *
  */
-function loadAPICatalog(callback){
+function loadAPICatalog(callback) {
   var returnData;
-  fileReader.readFile('../NodeServer/lib/APICatalog.properties', function (error, data){
-    if(error){
+  fileReader.readFile('../NodeServer/lib/APICatalog.properties', function (error, data) {
+    if (error) {
       returnData = JSON.stringify({
         status: false,
         message: error
       });
-      console.error('Unable to load Config File '+'\n'+returnData);
+      console.error('Unable to load Config File ' + '\n' + returnData);
       return callback(returnData);
     }
     returnData = data.toString();
