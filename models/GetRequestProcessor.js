@@ -6,17 +6,12 @@ var apiCatalog = require('../lib/APICatalog.js');
 var express = require('express');
 var router = express.Router();
 var jsonParser = require('body-parser');
-var PropertiesReader = require('properties-reader')
 var fileReader = require('file-system');
 
 router.use(jsonParser.urlencoded({
   extended: true
 }));
 router.use(jsonParser.json());
-
-// var apiCatalog = loadAPICatalog(function(data){
-//   apiCatalog = data;
-// });
 
 router.route('/:paramName')
   .get(function (request, response) {
@@ -60,12 +55,13 @@ function checkObjectState(val) {
 }
 
 /**
- * getAPIFromCatalog - This function checks the APICatalog.js for the appropriate API link.
+ * getAPIFromCatalog - This function checks the APICatalog.js for the
+ * appropriate API.
  *
  * @param  {var}  api The API which needs to be checked.
  * @param  {type} callback
- * @return {JSON} {String} This method will return a JSON Object in case of an error. If the
- *                          API is found the path to API is returned as a String.
+ * @return {JSON} {String} This method will return a JSON Object if the API could not be found.
+ * If the API is found, the path to API is returned as a String object.
  */
 function getAPIFromCatalog(api, callback) {
   var fetchApi = apiCatalog[api];
