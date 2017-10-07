@@ -11,12 +11,10 @@ router.use(jsonParser.urlencoded({
 }));
 router.use(jsonParser.json());
 
-console.log('Inside Employee Class');
-
-router.route('/Employee/'+constants.APIVersion+'getEmployeeDetails')
+router.route('/Employee/v1/getEmployeeDetails')
   .get(function (request, response) {
     response.json({
-      message: 'Inside getEmployee API'
+      message: 'Inside the API getEmployeeDetails'
     });
   });
 
