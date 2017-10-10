@@ -1,3 +1,4 @@
+'use strict';
 // Custom imports
 var getRequests = require('./models/GetRequestProcessor.js');
 var constants = require('./lib/constants.js');
