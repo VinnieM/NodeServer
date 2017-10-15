@@ -1,13 +1,16 @@
+'use strict';
 // Custom imports
 var constants = require('../lib/constants.js');
 var apiCatalog = require('../lib/APICatalog.js');
 var employee = require('./Employee.js')
 
-  // Node_module imports
+// Node_module imports
 var express = require('express');
 var router = express.Router();
 var jsonParser = require('body-parser');
 var fileReader = require('file-system');
+var request = require('request');
+var Promise = require('promise');
 
 router.use(jsonParser.urlencoded({
   extended: true
@@ -15,14 +18,24 @@ router.use(jsonParser.urlencoded({
 router.use(jsonParser.json());
 
 /**
+ * If an API is not passed into the GET request
+ */
+router.route('/')
+  .get(function (request, response) {
+    response.json({
+      status: false,
+      message: 'A valid API is required'
+    });
+  });
+
+/**
  * GET request without any parameters
  */
 router.route('/:paramName')
   .get(function (request, response) {
     var paramName = request.param('paramName');
-    // Checking for the length of the API
-    if (paramName.length < 1) {
-      response.json({
+    if (paramName.length <= 1) {
+      return response.json({
         status: false,
         message: 'Please enter a valid API'
       });
@@ -31,24 +44,26 @@ router.route('/:paramName')
     var url = getAPIFromCatalog(paramName, function (data) {
       url = data;
     });
+    // If API is not found an error is returned
     var isApiValid = checkObjectState(url);
-    // Goes into the if condition it is an error
     if (!(isApiValid)) {
-      response.send(isValidUrl);
+      response.send(url);
     }
-    var getResponse = routeToServer(url, function (data) {
-      response = data
-    });
-    console.log('The response is '+getResponse);
+    var getResponse = routeToServer(url);
     response.json({
-      message: getResponse
+      message: getResponse,
+      status: 'Happy Path'
     });
   });
 
-function routeToServer(url, callback) {
-  router.use(url, employee, funtion(req, res, next){
-    next();
+// How the hell do I do this?
+function routeToServer(path) {
+  console.log('URL is ' + path);
+  var promise = new Promise(function (resolve, reject) {
+    router.use(path, employee.router);
   });
+  console.log(JSON.stringify(promise));
+  return promise.toString();
 }
 
 /**
