@@ -11,11 +11,21 @@ router.use(jsonParser.urlencoded({
   extended: true
 }));
 router.use(jsonParser.json());
-console.log('Initialised the Employee class');
+
+// Should I use a router.route or router.get ? Since I do not have any endpoints,
+// I went with the get option
+
+// router.route('/Employee/v1/getEmployeeDetails')
+//   .get(function (request, response) {
+//     console.log('Inside the fucking API');
+//     response.json({
+//       message: 'Inside the API getEmployeeDetails'
+//     });
+//   });
 
 router.get('/Employee/v1/getEmployeeDetails',
   function (request, response) {
-    console.log('Inside the damm API');
+    console.log('Inside the fucking API');
     response.json({
       message: 'Inside the damm API'
     });
