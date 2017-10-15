@@ -40,6 +40,8 @@ router.route('/:paramName')
         message: 'Please enter a valid API'
       });
     }
+    // Truds is this a right way to use callbacks?
+
     // Check if API matches from the catalog
     var url = getAPIFromCatalog(paramName, function (data) {
       url = data;
@@ -56,7 +58,7 @@ router.route('/:paramName')
     });
   });
 
-// How the hell do I do this?
+// Is this how promises are supposed to be used?
 function routeToServer(path) {
   console.log('URL is ' + path);
   var promise = new Promise(function (resolve, reject) {
