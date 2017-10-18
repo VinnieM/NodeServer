@@ -8,6 +8,10 @@ var express = require('express');
 var server = express();
 var jsonParser = require('body-parser');
 
+// API's
+var employee = require('./models/Employee.js');
+var managers = require('./models/Manager.js');
+
 server.use(jsonParser.urlencoded({
   extended: true
 }));
@@ -37,4 +41,4 @@ router.post('/', function (request, response) {
 
 server.use('/APIMapper', router);
 server.listen(serverPort);
-console.log('Node Server is running on ' + serverPort);
+console.log('Node Server API Mapper is running on ' + serverPort);
