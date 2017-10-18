@@ -4,23 +4,28 @@ var constants = require('../lib/constants.js');
 
 //Node_module imports
 var express = require('express');
-var router = express.Router();
+var server = express();
 var jsonParser = require('body-parser');
 
-router.use(jsonParser.urlencoded({
+server.use(jsonParser.urlencoded({
   extended: true
 }));
-router.use(jsonParser.json());
+server.use(jsonParser.json());
 
-// router.route('/Employee/v1/getEmployeeDetails')
-//   .get(function (request, response) {
-//     console.log('Inside the API');
-//     response.json({
-//       message: 'Inside the API getEmployeeDetails'
-//     });
-//   });
+// Setting the PORT
+var employeeServerPort = 9091;
+var router = express.Router();
 
-router.get('/Employee/v1/getEmployeeDetails',
+router.route('/'+constants.APIVersion+'/')
+  .get(function (request, response){
+    response.json({
+      message: 'Employee Server running on Port '+employeeServerPort
+    });
+  });
+
+router.get('/'+constants.APIVersion+'/')
+
+router.get('/'+constants.APIVersion+'/getEmployeeDetails',
   function (request, response) {
     console.log('Inside the API');
     response.json({
@@ -28,4 +33,6 @@ router.get('/Employee/v1/getEmployeeDetails',
     });
   });
 
-module.exports = router;
+server.use('/Employee', router);
+server.listen(employeeServerPort);
+console.log('Node Server Employee Started on ' + employeeServerPort);
