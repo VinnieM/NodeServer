@@ -2,7 +2,6 @@
 // Custom imports
 var constants = require('../lib/constants.js');
 var apiCatalog = require('../lib/APICatalog.js');
-var employee = require('./Employee.js')
 
 // Node_module imports
 var express = require('express');
@@ -40,32 +39,27 @@ router.route('/:paramName')
         message: 'Please enter a valid API'
       });
     }
-    // Truds is this a right way to use callbacks?
 
     // Check if API matches from the catalog
-    var url = getAPIFromCatalog(paramName, function (data) {
-      url = data;
+    var isApiValid;
+    getAPIFromCatalog(paramName, function (response) {
+      isApiValid = checkObjectState(response);
     });
-    // If API is not found an error is returned
-    var isApiValid = checkObjectState(url);
     if (!(isApiValid)) {
+      // If the variable url is undefined, forming a JSON response.
+      if (url === undefined) {
+        response.json({
+          status: false,
+          message: 'An error occured, Unable to find API'
+        });
+      }
       response.send(url);
     }
-    var getResponse = routeToServer(url);
-    response.json({
-      message: getResponse,
-      status: 'Happy Path'
-    });
+    var getResponse = routeToServer(response);
   });
 
-// Is this how promises are supposed to be used?
 function routeToServer(path) {
-  console.log('URL is ' + path);
-  var promise = new Promise(function (resolve, reject) {
-    router.use(path, employee.router);
-  });
-  console.log(JSON.stringify(promise));
-  return promise.toString();
+  // Logic to connect to the correct Server
 }
 
 /**
@@ -75,12 +69,15 @@ function routeToServer(path) {
  * @return {boolean}  If the parameter is a JSON Object false is returned, else true.
  */
 function checkObjectState(val) {
+  if (val === undefined) {
+    return false;
+  }
   try {
     JSON.parse(val);
+    return false;
   } catch (exception) {
     return true;
   }
-  return false;
 }
 
 /**
@@ -93,21 +90,21 @@ function checkObjectState(val) {
  * If the API is found, the path to API is returned as a String object.
  */
 function getAPIFromCatalog(api, callback) {
-  var fetchApi = apiCatalog[api];
-  if (fetchApi === undefined) {
-    var errorObject = JSON.stringify({
+  var apiFromCatalog = apiCatalog[api];
+  if (apiFromCatalog === undefined) {
+    var error = JSON.stringify({
       status: false,
       message: 'Unable to find API ' + api
     });
-    return errorObject;
+    callback(error);
   }
-  return fetchApi;
+  callback(apiFromCatalog);
 }
 
 
 /**
- * loadAPICatalog - Depricated function
- *
+ * loadAPICatalog - This function reads data from a file, currently a depricated
+ * function
  */
 function loadAPICatalog(callback) {
   var returnData;
@@ -118,10 +115,10 @@ function loadAPICatalog(callback) {
         message: error
       });
       console.error('Unable to load Config File ' + '\n' + returnData);
-      return callback(returnData);
+      callback(returnData);
     }
     returnData = data.toString();
-    return callback(returnData);
+    callback(returnData);
   });
 }
 
