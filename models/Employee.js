@@ -13,23 +13,22 @@ server.use(jsonParser.urlencoded({
 server.use(jsonParser.json());
 
 // Setting the PORT
-var employeeServerPort = 9091;
+var employeeServerPort = process.env.port || 9091;
 var router = express.Router();
 
-router.route('/'+constants.APIVersion+'/')
-  .get(function (request, response){
+router.route('/' + constants.APIVersion + '/')
+  .get(function (request, response) {
     response.json({
-      message: 'Employee Server running on Port '+employeeServerPort
+      message: 'Employee Server running on Port ' + employeeServerPort
     });
   });
 
-router.get('/'+constants.APIVersion+'/')
-
-router.get('/'+constants.APIVersion+'/getEmployeeDetails',
-  function (request, response) {
+router.route('/' + constants.APIVersion + '/getEmployeeDetails')
+  .get(function (request, response) {
     console.log('Inside the API');
     response.json({
-      message: 'Inside the API'
+      status: true,
+      message: 'Inside the API getEmployeeDetails'
     });
   });
 
