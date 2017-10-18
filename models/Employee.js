@@ -13,25 +13,31 @@ server.use(jsonParser.urlencoded({
 server.use(jsonParser.json());
 
 // Setting the PORT
-var employeeServerPort = process.env.port || 9091;
+var port = process.env.port || 9091;
 var router = express.Router();
 
+/**
+ * This API is for health check
+ */
 router.route('/' + constants.APIVersion + '/')
   .get(function (request, response) {
     response.json({
-      message: 'Employee Server running on Port ' + employeeServerPort
+      status: true,
+      message: 'Server is running'
     });
   });
 
+/**
+ * This API will return the employee details.
+ */
 router.route('/' + constants.APIVersion + '/getEmployeeDetails')
   .get(function (request, response) {
-    console.log('Inside the API');
     response.json({
       status: true,
       message: 'Inside the API getEmployeeDetails'
     });
   });
 
-server.use('/Employee', router);
-server.listen(employeeServerPort);
-console.log('Node Server Employee Started on ' + employeeServerPort);
+server.use(constants.Employee, router);
+server.listen(port);
+console.log('Node Server, Employee Started on ' + port);
