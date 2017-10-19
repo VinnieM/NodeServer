@@ -39,27 +39,37 @@ router.route('/:paramName')
         message: 'Please enter a valid API'
       });
     }
-
     // Check if API matches from the catalog
-    var isApiValid;
+    var isApiValid = false;
+    var completeUrl = '';
     getAPIFromCatalog(paramName, function (response) {
       isApiValid = checkObjectState(response);
+      completeUrl = response;
     });
     if (!(isApiValid)) {
       // If the variable url is undefined, forming a JSON response.
-      if (url === undefined) {
+      if (completeUrl === undefined) {
         response.json({
           status: false,
           message: 'An error occured, Unable to find API'
         });
       }
-      response.send(url);
+      response.send(completeUrl);
     }
-    var getResponse = routeToServer(response);
+    //TODO : Need to get the returnData and send the data as the response
+    routeToServer(completeUrl);
   });
 
-function routeToServer(path) {
-  // Logic to connect to the correct Server
+function routeToServer(completeUrl) {
+  request(completeUrl, {
+    json: true
+  }, (error, res, body) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(JSON.stringify(body));
+    }
+  });
 }
 
 /**
