@@ -5,7 +5,10 @@ var apiCatalog = require('../lib/APICatalog.js');
 
 // Node_module imports
 var express = require('express');
-var router = express.Router();
+var router = express.Router([{
+  strict: true,
+  caseSensitive: true
+}]);
 var jsonParser = require('body-parser');
 var fileReader = require('file-system');
 var request = require('request');

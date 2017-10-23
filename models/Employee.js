@@ -14,7 +14,10 @@ server.use(jsonParser.json());
 
 // Setting the PORT
 var port = process.env.port || 9091;
-var router = express.Router();
+var router = express.Router([{
+  strict: true,
+  caseSensitive: true
+}]);
 
 /**
  * This API is for health check
@@ -32,10 +35,13 @@ router.route('/' + constants.APIVersion + '/')
  */
 router.route('/' + constants.APIVersion + '/getEmployeeDetails')
   .get(function (request, response) {
-    response.json({
-      status: true,
-      message: 'Inside the API getEmployeeDetails'
-    });
+    setTimeout(function () {
+      console.log('Inside the Timeout');
+      response.json({
+        status: true,
+        message: 'Inside the API getEmployeeDetails'
+      });
+    }, 3000);
   });
 
 server.use(constants.Employee, router);
