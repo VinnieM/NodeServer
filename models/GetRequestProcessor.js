@@ -59,18 +59,28 @@ router.route('/:paramName')
       }
       response.send(completeUrl);
     }
-    //TODO : Need to get the returnData and send the data as the response
-    routeToServer(completeUrl);
+    routeToServer(completeUrl, function(data){
+        console.log('Inside CallBack '+JSON.stringify(data));
+        response.send(JSON.stringify(data));
+    });
   });
 
-function routeToServer(completeUrl) {
+
+/**
+ * This function will route the request to the appropriate API
+ *
+ * @param completeUrl This is the URL of the Internal Server which
+ * needs to be queried.
+ */
+
+function routeToServer(completeUrl , callback) {
   request(completeUrl, {
     json: true
   }, (error, res, body) => {
     if (error) {
-      console.log(error);
+      callback(error);
     } else {
-      console.log(JSON.stringify(body));
+      callback(body);
     }
   });
 }
