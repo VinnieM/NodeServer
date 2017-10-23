@@ -35,13 +35,10 @@ router.route('/' + constants.APIVersion + '/')
  */
 router.route('/' + constants.APIVersion + '/getEmployeeDetails')
   .get(function (request, response) {
-    setTimeout(function () {
-      console.log('Inside the Timeout');
-      response.json({
-        status: true,
-        message: 'Inside the API getEmployeeDetails'
-      });
-    }, 3000);
+    response.json({
+      status: true,
+      message: 'Inside the API getEmployeeDetails'
+    });
   });
 
 server.use(constants.Employee, router);
