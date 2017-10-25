@@ -9,8 +9,8 @@ var server = express();
 var jsonParser = require('body-parser');
 
 // API's
-var employee = require('./models/Employee.js');
-var managers = require('./models/Manager.js');
+var employee = require('./models/API/Employee.js');
+var managers = require('./models/API/Manager.js');
 
 server.use(jsonParser.urlencoded({
   extended: true
