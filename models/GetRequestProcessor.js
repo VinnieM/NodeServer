@@ -60,50 +60,50 @@ router.route('/:paramName')
       }
       response.send(completeUrl);
     }
-    routeToServer(completeUrl, function(data){
-        response.send(JSON.stringify(data));
+    routeToServer(completeUrl, function (data) {
+      response.send(JSON.stringify(data));
     });
   });
 
 
-  /**
-   * GET request with parameters
-   */
-  router.route('/:paramName/:paramValue')
-    .get(function (request, response) {
-      var paramName = request.param('paramName');
-      // Checking if the parameter is a valid parameter
-      if (paramName.length <= 1) {
-        return response.json({
+/**
+ * GET request with parameters
+ */
+router.route('/:paramName/:paramValue')
+  .get(function (request, response) {
+    var paramName = request.param('paramName');
+    // Checking if the parameter is a valid parameter
+    if (paramName.length <= 1) {
+      return response.json({
+        status: false,
+        message: 'Please enter a valid API'
+      });
+    }
+    var paramValue = request.param('paramValue');
+    // Check if API matches from the catalog
+    var isApiValid = false;
+    var completeUrl = '';
+    getAPIFromCatalog(paramName, function (response) {
+      // A boolean value is returned.
+      isApiValid = checkObjectState(response);
+      completeUrl = response;
+    });
+    if (!(isApiValid)) {
+      // If the variable url is undefined, forming a JSON response.
+      if (completeUrl === undefined) {
+        response.json({
           status: false,
-          message: 'Please enter a valid API'
+          message: 'An error occured, Unable to find API'
         });
       }
-      var paramValue = request.param('paramValue');
-      // Check if API matches from the catalog
-      var isApiValid = false;
-      var completeUrl = '';
-      getAPIFromCatalog(paramName, function (response) {
-        // A boolean value is returned.
-        isApiValid = checkObjectState(response);
-        completeUrl = response;
-      });
-      if (!(isApiValid)) {
-        // If the variable url is undefined, forming a JSON response.
-        if (completeUrl === undefined) {
-          response.json({
-            status: false,
-            message: 'An error occured, Unable to find API'
-          });
-        }
-        response.send(completeUrl);
-      }
-      // Appending the parameter to the completeUrl
-      completeUrl +='/'+paramValue;
-      routeToServer(completeUrl, function(data){
-          response.send(JSON.stringify(data));
-      });
+      response.send(completeUrl);
+    }
+    // Appending the parameter to the completeUrl
+    completeUrl += '/' + paramValue;
+    routeToServer(completeUrl, function (data) {
+      response.send(JSON.stringify(data));
     });
+  });
 
 
 /**
@@ -113,7 +113,7 @@ router.route('/:paramName')
  * needs to be queried.
  */
 
-function routeToServer(completeUrl , callback) {
+function routeToServer(completeUrl, callback) {
   request(completeUrl, {
     json: true
   }, (error, res, body) => {
