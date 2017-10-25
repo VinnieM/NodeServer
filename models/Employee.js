@@ -41,6 +41,19 @@ router.route('/' + constants.APIVersion + '/getEmployeeDetails')
     });
   });
 
+
+/**
+ * This is a test API which takes a parameter
+ */
+router.route('/' + constants.APIVersion + '/getEmployeeDetails'+'/:paramValue')
+  .get(function(request, response) {
+    var param = request.param('paramValue');
+    response.json({
+      status: true,
+      paramValue: param
+    });
+  });
+
 server.use(constants.Employee, router);
 server.listen(port);
 console.log('Node Server, Employee Started on ' + port);
