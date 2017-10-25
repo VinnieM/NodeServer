@@ -20,7 +20,10 @@ server.use(jsonParser.json());
 // Setting the port
 var serverPort = process.env.PORT || 8080;
 
-var router = express.Router();
+var router = express.Router([{
+  strict: true,
+  caseSensitive: true
+}]);
 
 // Using the router for processing GET requests
 router.use('/' + constants.APIVersion + '/invokeGet', getRequests);
