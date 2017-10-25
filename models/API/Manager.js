@@ -1,6 +1,6 @@
 'use strict';
 //Custom imports
-var constants = require('../lib/constants.js');
+var constants = require('../../lib/constants.js');
 
 //Node_module imports
 var express = require('express');
