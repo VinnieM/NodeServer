@@ -1,6 +1,7 @@
 'use strict';
 // Custom imports
 var getRequests = require('./models/GetRequestProcessor.js');
+var postRequests = require('./models/PostRequestProcessor.js');
 var constants = require('./lib/constants.js');
 
 // Node_Module imports
@@ -27,6 +28,8 @@ var router = express.Router([{
 
 // Using the router for processing GET requests
 router.use('/' + constants.APIVersion + '/invokeGet', getRequests);
+// Using the router for processing POST requests
+router.use('/' + constants.APIVersion + '/invokePost', postRequests);
 
 // Welcome GET request
 router.get('/', function (request, response) {
