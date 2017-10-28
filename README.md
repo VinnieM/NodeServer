@@ -1,9 +1,9 @@
 Introduction
 ------------
 
-The one and only aim of this project is to learn Node.js and Express. This is a Node.js version of a Java server which was created in one of my earlier projects. The end goal is to make a skeletal Restful service which can be deployed in an environment which would be highly resource and process intensive.
+The aim of this project is to learn Node.js & Express. The end goal is to make a skeletal Restful service which can be deployed in a high demanding environment.
 
-In a nutshell this is a Restful server which is built on Node.js and Express. The external facing server, which in this case is server.js, which is the starting point; server.js runs on port 8080. The path to access API's are
+In a nutshell this is a Restful server which is built on Node.js and Express. The external facing server, which in this case is server.js, is the starting point; server.js runs on port 8080. The path to access API's are
   http://127.0.0.1:8080/APIMapper/vi/invokeGet/{APIName}
   http://127.0.0.1:8080/APIMapper/vi/invokeGet/{APIName}/{Paramaters}
   http://127.0.0.1:8080/APIMapper/vi/invokePost/{APIName}
