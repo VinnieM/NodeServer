@@ -59,7 +59,7 @@ router.route('/:paramName')
       }
       response.send(completeUrl);
     }
-    coreUtils.routeToServer(completeUrl, function (data) {
+    coreUtils.routeToGetProcessor(completeUrl, function (data) {
       response.send(JSON.stringify(data));
     });
   });
@@ -99,7 +99,7 @@ router.route('/:paramName/:paramValue')
     }
     // Appending the parameter to the completeUrl
     completeUrl += '/' + paramValue;
-    coreUtils.routeToServer(completeUrl, function (data) {
+    coreUtils.routeToGetProcessor(completeUrl, function (data) {
       response.send(JSON.stringify(data));
     });
   });
