@@ -41,16 +41,26 @@ router.route('/' + constants.APIVersion + '/getEmployeeDetails')
     });
   });
 
-
 /**
  * This is a test API which takes a parameter
  */
-router.route('/' + constants.APIVersion + '/getEmployeeDetails'+'/:paramValue')
-  .get(function(request, response) {
+router.route('/' + constants.APIVersion + '/getEmployeeDetails' + '/:paramValue')
+  .get(function (request, response) {
     var param = request.param('paramValue');
     response.json({
       status: true,
       paramValue: param
+    });
+  });
+
+/**
+ * This POST API will return a JSON value.
+ */
+router.route('/' + constants.APIVersion + '/getEmployeeDetailsPost')
+  .post(function (request, response) {
+    response.json({
+      status: true,
+      message: 'Inside the API getEmployeeDetailsPost'
     });
   });
 
