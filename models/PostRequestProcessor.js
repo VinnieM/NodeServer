@@ -56,8 +56,9 @@ router.route('/:paramName')
       }
       response.send(completeUrl);
     }
-    coreUtils.routeToPostProcessor(completeUrl, function (data) {
-      response.send(JSON.stringify(data));
+    var payload = JSON.stringify(request.body);
+    coreUtils.routeToPostProcessor(completeUrl, payload, function (data) {
+      response.send(data);
     });
   });
 
