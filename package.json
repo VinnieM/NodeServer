@@ -1,5 +1,5 @@
 {
-  "name": "Nodejs Sample",
+  "name": "Nodejs-Sample-Server-App",
   "version": "0.0.1",
   "description": "A Nodejs project which was made to learn NodeJs and Express",
   "main": "server.js",
