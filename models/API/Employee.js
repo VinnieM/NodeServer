@@ -32,30 +32,37 @@ router.route('/' + constants.APIVersion + '/')
   });
 
 /**
- * This API will return the employee details.
- */
-router.route('/' + constants.APIVersion + '/getEmployeeDetails')
-  .get(function (request, response) {
-    response.json({
-      status: true,
-      message: 'Inside the API getEmployeeDetails'
-    });
-  });
-
-/**
  * This is an API which return the basic details of an employee
  *
  * @param empNumber The employee number needs to be passed a GET parameter
  */
-router.route('/' + constants.APIVersion + '/getEmployeeDetails' + '/:empNumber')
+router.route('/' + constants.APIVersion + '/getEmployeeDetails' + '/:empEmail')
   .get(function (request, response) {
-    var employeeNumber = request.param('empNumber');
+    var employeeEmail = request.param('empEmail');
+    // If the employee Number is less
+    if (employeeEmail.length <= 2 || employeeEmail === undefined) {
+      return response.json({
+        status: false,
+        errorMessage: 'Invalid Employee Number'
+      });
+    }
     userContext.find({
-      'empID': employeeNumber
+      'empDetails.empEmail': employeeEmail
     }, function (err, data) {
       if (err) {
-        console.log('The error is ' + err);
+        response.json({
+          status: false,
+          errorMessage: err
+        });
       } else {
+        // If the employee number was not present in MongoDB
+        if (data[0] === undefined) {
+          return response.json({
+            status: false,
+            errorMessage: 'Unable to find employee details'
+          });
+        }
+        // If the employee is present in MongoDB, the data is parsed and stringified
         var empDetails = JSON.parse(JSON.stringify(data[0]));
         response.json({
           status: true,
