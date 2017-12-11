@@ -7,7 +7,7 @@ var mongoConnection = require('mongoose');
 var Schema = mongoConnection.Schema;
 
 // Connecting to MongoDB
-mongoConnection.connect(constants.MongoDBConnection);
+mongoConnection.connect(constants.MongoDBConnection, { useMongoClient: true });
 var mongoDb =   mongoConnection.connection;
 
 //Bind connection to error event (to get notification of connection errors)
