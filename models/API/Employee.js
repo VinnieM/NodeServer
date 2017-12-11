@@ -38,7 +38,7 @@ router.route('/' + constants.APIVersion + '/')
  */
 router.route('/' + constants.APIVersion + '/getEmployeeDetails' + '/:empEmail')
   .get(function (request, response) {
-    var employeeEmail = request.param('empEmail');
+    var employeeEmail = request.params.empEmail;
     // If the employee Number is less
     if (employeeEmail.length <= 2 || employeeEmail === undefined) {
       return response.json({
@@ -69,7 +69,7 @@ router.route('/' + constants.APIVersion + '/getEmployeeDetails' + '/:empEmail')
           Employee_Name: empDetails.empDetails.empName,
           Employee_ADID: empDetails.empDetails.empADID,
           Employee_Band: empDetails.empDetails.empBand,
-          Employee_Passport_Number: empDetails.passportDetails.passportNo,
+          Employee_Passport_Number: empDetails.passportDetails === undefined ? 'Passport Not Found' : empDetails.passportDetails.passportNo,
           Employee_Manager_Name: empDetails.supDetails.Name,
           Employee_Manager_ADID: empDetails.supDetails.ADID,
           Employee_Manager_Email: empDetails.supDetails.Email
