@@ -70,7 +70,7 @@ router.route('/:paramName')
  */
 router.route('/:paramName/:paramValue')
   .get(function (request, response) {
-    var paramName = request.param('paramName');
+    var paramName = request.params.paramName;
     // Checking if the parameter is a valid parameter
     if (paramName.length <= 1) {
       return response.json({
@@ -78,7 +78,7 @@ router.route('/:paramName/:paramValue')
         message: 'Please enter a valid API'
       });
     }
-    var paramValue = request.param('paramValue');
+    var paramValue = request.params.paramValue;
     // Check if API matches from the catalog
     var isApiValid = false;
     var completeUrl = '';
