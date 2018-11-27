@@ -8,13 +8,13 @@
   },
   "dependencies": {
     "body-parser": "^1.18.3",
-    "express": "^4.16.3",
+    "express": "^4.16.4",
     "file-system": "2.2.2",
     "mongoose": "4.13.6",
     "passport": "0.4.0",
     "passport-http": "^0.3.0",
     "promise": "8.0.1",
-    "request": "2.83.0"
+    "request": "^2.88.0"
   },
   "repository": {
     "type": "git",
