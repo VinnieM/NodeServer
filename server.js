@@ -35,18 +35,18 @@ router.use('/' + constants.APIVersion + '/invokePost', postRequests);
 // Welcome GET request
 
 router.get('/', coreUtils.authentication.authenticate('basic', {
-      session: false
-    }),
-    function (request, response) {
-      response.json({
-        message: 'Welcome to Node server v0.1'
-      });
+    session: false
+  }),
+  function(request, response) {
+    response.json({
+      message: 'Welcome to Node server v0.1'
+    });
   });
 
 // Welcome POST request
 router.post('/', coreUtils.authentication.authenticate('basic', {
   session: false
-}), function (request, response) {
+}), function(request, response) {
   response.json({
     message: 'Welcome to Node server v0.1'
   });
