@@ -12,9 +12,3 @@ In a nutshell this is a Restful server which is built on Node.js and Express. Th
 Currently the model consist of GetRequestProcessor and PostRequestProcessor (PutRequestProcessor will be added in due course of time). According to the type of request which would be fired (GET, POST or PUT) the server.js would route the request to Get, Post or Put RequestProcessor. Once the request reaches any of the processors, the API name is compared to a list of API's which are present inside the APICatalog which is present inside the lib folder.
 
 If a match is obtained, the new API path is obtained and then a request is made the corresponding server.
-
-Requirements and Installation
------------------------------
-* Node.js
-* NPM
-* PostMan (Not a necessity, but it has a better GUI. Curl can also be used to test API's)
