@@ -7,8 +7,11 @@ var mongoConnection = require('mongoose');
 var Schema = mongoConnection.Schema;
 
 // Connecting to MongoDB
-mongoConnection.connect(constants.MongoDBConnection, { useMongoClient: true });
-var mongoDb =   mongoConnection.connection;
+mongoConnection.connect(constants.MongoDBConnection, {
+  useNewUrlParser: true,
+  useUnifiedTopology: false
+});
+var mongoDb = mongoConnection.connection;
 
 //Bind connection to error event (to get notification of connection errors)
 mongoDb.on('error', console.error.bind(console, 'MongoDB connection error:'));
